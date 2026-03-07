@@ -1,3 +1,5 @@
+import fabricationImage from "../../assets/images/services/industrial fabrication.png";
+
 const About = () => {
   return (
     <section id="about" className="bg-[#0b1119] text-white py-24">
@@ -56,9 +58,10 @@ const About = () => {
         <div className="relative">
 
           <img
-            src="/src/assets/images/services/industrial fabrication.png"
+            src={fabricationImage}
             alt="Fabrication Work"
             className="rounded-xl shadow-lg object-cover w-full h-[420px]"
+            loading="lazy"
           />
 
         </div>
