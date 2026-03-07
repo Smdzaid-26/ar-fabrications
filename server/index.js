@@ -6,7 +6,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 const app = express();
+
 app.use(cors());
+app.use(express.json());
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -14,6 +16,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Test route
+app.get("/", (req, res) => {
+  res.json({ status: "AR Fabrications API running 🚀" });
+});
+
+// Get images from cloudinary folder
 app.get("/images/:folder", async (req, res) => {
   try {
     const folder = req.params.folder;
@@ -27,10 +35,12 @@ app.get("/images/:folder", async (req, res) => {
     res.json(result.resources);
   } catch (error) {
     console.error("Cloudinary error:", error);
-    res.status(500).json({ error });
+    res.status(500).json({ error: "Failed to fetch images" });
   }
 });
 
-app.listen(5000, () => {
-  console.log("Backend proxy running on http://localhost:5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Backend proxy running on port ${PORT}`);
 });

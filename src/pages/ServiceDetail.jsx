@@ -32,7 +32,7 @@ const ServiceDetail = () => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/images/${folder}`
+          `https://ar-fabrications-api.onrender.com/images/${folder}`
         );
 
         if (!response.ok) {
