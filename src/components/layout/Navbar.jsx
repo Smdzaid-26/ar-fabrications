@@ -1,43 +1,62 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
-const Navbar = ({ openQuote }) => {
+const SECTIONS = ["home", "about", "services", "industries", "contact"];
+
+const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("home");
 
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
+
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
       setMenuOpen(false);
     }
   };
 
   useEffect(() => {
-    const sections = ["home", "about", "services", "industries", "contact"];
+    let ticking = false;
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 120;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY + 140;
 
-      sections.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) {
-          if (
-            scrollPosition >= section.offsetTop &&
-            scrollPosition < section.offsetTop + section.offsetHeight
-          ) {
-            setActive(id);
+          for (let id of SECTIONS) {
+            const section = document.getElementById(id);
+
+            if (section) {
+              const top = section.offsetTop;
+              const height = section.offsetHeight;
+
+              if (scrollPosition >= top && scrollPosition < top + height) {
+                setActive((prev) => (prev === id ? prev : id));
+              }
+            }
           }
-        }
-      });
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const linkClass = (id) =>
-    `pb-1 border-b-2 ${
+    `pb-1 border-b-2 transition-colors duration-200 ${
       active === id
         ? "text-white border-primary"
         : "text-gray-500 border-transparent hover:text-gray-200"
@@ -83,22 +102,15 @@ const Navbar = ({ openQuote }) => {
 
         </nav>
 
-        {/* Desktop CTA */}
-        {/* <button
-          onClick={openQuote}
-          className="hidden md:block px-7 py-2 rounded-sm font-semibold text-white
-          bg-gradient-to-b from-[#f97316] to-[#d9480f]"
-        >
-          Get a Quote
-        </button> */}
-
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label="Toggle Menu"
         >
           {menuOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
+
       </div>
 
       {/* Mobile Menu */}
@@ -106,34 +118,17 @@ const Navbar = ({ openQuote }) => {
         <div className="md:hidden bg-[#0e1116] border-t border-white/10">
           <div className="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
 
-            <button onClick={() => scrollToSection("home")} className="text-left text-white">
-              Home
-            </button>
-
-            <button onClick={() => scrollToSection("about")} className="text-left text-gray-300">
-              About Us
-            </button>
-
-            <button onClick={() => scrollToSection("services")} className="text-left text-gray-300">
-              Services
-            </button>
-
-            <button onClick={() => scrollToSection("industries")} className="text-left text-gray-300">
-              Industries
-            </button>
-
-            <button onClick={() => scrollToSection("contact")} className="text-left text-gray-300">
-              Contact
-            </button>
-
-            {/* Mobile CTA */}
-            {/* <button
-              onClick={openQuote}
-              className="mt-2 w-full py-3 rounded-md font-semibold text-white
-              bg-gradient-to-b from-[#f97316] to-[#d9480f]"
-            >
-              Get a Quote
-            </button> */}
+            {SECTIONS.map((id) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={`text-left ${
+                  active === id ? "text-white" : "text-gray-300"
+                }`}
+              >
+                {id.charAt(0).toUpperCase() + id.slice(1)}
+              </button>
+            ))}
 
           </div>
         </div>
