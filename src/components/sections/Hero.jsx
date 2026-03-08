@@ -1,5 +1,4 @@
-import heroImage from "../../assets/images/services/hero.webp";
-
+import heroImage from "../../assets/images/hero.webp";
 const Hero = ({ openQuote }) => {
 
   const scrollToSection = (id) => {
