@@ -1,12 +1,28 @@
 const Footer = () => {
 
   const scrollToSection = (id) => {
+
+    // If Home clicked, scroll to top
+    if (id === "home") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+      return;
+    }
+
     const section = document.getElementById(id);
 
     if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+      const yOffset = -90; // adjust based on navbar height
+      const y =
+        section.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
       });
     }
   };
@@ -28,55 +44,69 @@ const Footer = () => {
           </p>
         </div>
 
-
         {/* Quick Links */}
         <div>
 
-          <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+          <h4 className="text-white font-semibold mb-4">
+            Quick Links
+          </h4>
 
           <ul className="space-y-2 text-sm">
 
-            <li
-              onClick={() => scrollToSection("home")}
-              className="hover:text-orange-400 cursor-pointer transition"
-            >
-              Home
+            <li>
+              <button
+                onClick={() => scrollToSection("home")}
+                className="hover:text-orange-400 transition"
+              >
+                Home
+              </button>
             </li>
 
-            <li
-              onClick={() => scrollToSection("services")}
-              className="hover:text-orange-400 cursor-pointer transition"
-            >
-              Services
+            <li>
+              <button
+                onClick={() => scrollToSection("services")}
+                className="hover:text-orange-400 transition"
+              >
+                Services
+              </button>
             </li>
 
-            <li
-              onClick={() => scrollToSection("industries")}
-              className="hover:text-orange-400 cursor-pointer transition"
-            >
-              Industries
+            <li>
+              <button
+                onClick={() => scrollToSection("industries")}
+                className="hover:text-orange-400 transition"
+              >
+                Industries
+              </button>
             </li>
 
-            <li
-              onClick={() => scrollToSection("contact")}
-              className="hover:text-orange-400 cursor-pointer transition"
-            >
-              Contact
+            <li>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="hover:text-orange-400 transition"
+              >
+                Contact
+              </button>
             </li>
 
           </ul>
 
         </div>
 
-
         {/* Contact */}
         <div>
 
-          <h4 className="text-white font-semibold mb-4">Contact Info</h4>
+          <h4 className="text-white font-semibold mb-4">
+            Contact Info
+          </h4>
 
-          <p className="text-sm mb-2">📞 +91 93910 93490</p>
+          <p className="text-sm mb-2">
+            📞 +91 93910 93490
+          </p>
 
-          <p className="text-sm mb-2">📍 Hindupur, Andhra Pradesh</p>
+          <p className="text-sm mb-2">
+            📍 Hindupur, Andhra Pradesh
+          </p>
 
           <p className="text-sm">
             ✉️ arfabrications@email.com
@@ -85,7 +115,6 @@ const Footer = () => {
         </div>
 
       </div>
-
 
       {/* Bottom Line */}
       <div className="border-t border-white/10 mt-10 pt-6 text-center text-sm text-gray-500">
