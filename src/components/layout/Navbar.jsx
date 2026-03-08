@@ -84,13 +84,13 @@ const Navbar = ({ openQuote }) => {
         </nav>
 
         {/* Desktop CTA */}
-        <button
+        {/* <button
           onClick={openQuote}
           className="hidden md:block px-7 py-2 rounded-sm font-semibold text-white
           bg-gradient-to-b from-[#f97316] to-[#d9480f]"
         >
           Get a Quote
-        </button>
+        </button> */}
 
         {/* Mobile Menu Button */}
         <button
@@ -127,13 +127,13 @@ const Navbar = ({ openQuote }) => {
             </button>
 
             {/* Mobile CTA */}
-            <button
+            {/* <button
               onClick={openQuote}
               className="mt-2 w-full py-3 rounded-md font-semibold text-white
               bg-gradient-to-b from-[#f97316] to-[#d9480f]"
             >
               Get a Quote
-            </button>
+            </button> */}
 
           </div>
         </div>
