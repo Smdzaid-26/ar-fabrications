@@ -1,36 +1,20 @@
 const Footer = () => {
 
   const scrollToSection = (id) => {
-
-    // If Home clicked, scroll to top
-    if (id === "home") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-      return;
-    }
-
     const section = document.getElementById(id);
 
     if (section) {
-      const yOffset = -90; // adjust based on navbar height
-      const y =
-        section.getBoundingClientRect().top +
-        window.pageYOffset +
-        yOffset;
-
-      window.scrollTo({
-        top: y,
-        behavior: "smooth"
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
     }
   };
 
   return (
-    <footer id="contact" className="bg-[#0b1119] text-gray-300 py-12">
+    <footer id="contact" className="bg-[#0b1119] text-gray-300 pt-20 pb-12">
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12">
 
         {/* Business Info */}
         <div>
@@ -38,11 +22,12 @@ const Footer = () => {
             AR Fabrications
           </h3>
 
-          <p className="text-sm leading-relaxed">
+          <p className="text-sm leading-relaxed text-gray-400">
             Premium steel gates, window grills, balcony railings and
             structural fabrication services in Hindupur.
           </p>
         </div>
+
 
         {/* Quick Links */}
         <div>
@@ -51,12 +36,15 @@ const Footer = () => {
             Quick Links
           </h4>
 
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-3 text-sm">
 
             <li>
               <button
                 onClick={() => scrollToSection("home")}
-                className="hover:text-orange-400 transition"
+                className="hover:text-orange-400 transition relative
+                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
+                after:w-0 after:bg-orange-400 after:transition-all
+                hover:after:w-full"
               >
                 Home
               </button>
@@ -65,7 +53,10 @@ const Footer = () => {
             <li>
               <button
                 onClick={() => scrollToSection("services")}
-                className="hover:text-orange-400 transition"
+                className="hover:text-orange-400 transition relative
+                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
+                after:w-0 after:bg-orange-400 after:transition-all
+                hover:after:w-full"
               >
                 Services
               </button>
@@ -74,7 +65,10 @@ const Footer = () => {
             <li>
               <button
                 onClick={() => scrollToSection("industries")}
-                className="hover:text-orange-400 transition"
+                className="hover:text-orange-400 transition relative
+                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
+                after:w-0 after:bg-orange-400 after:transition-all
+                hover:after:w-full"
               >
                 Industries
               </button>
@@ -83,7 +77,10 @@ const Footer = () => {
             <li>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="hover:text-orange-400 transition"
+                className="hover:text-orange-400 transition relative
+                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
+                after:w-0 after:bg-orange-400 after:transition-all
+                hover:after:w-full"
               >
                 Contact
               </button>
@@ -93,31 +90,41 @@ const Footer = () => {
 
         </div>
 
-        {/* Contact */}
+
+        {/* Contact Info */}
         <div>
 
           <h4 className="text-white font-semibold mb-4">
             Contact Info
           </h4>
 
-          <p className="text-sm mb-2">
-            📞 +91 93910 93490
-          </p>
+          <div className="space-y-3 text-sm text-gray-400">
 
-          <p className="text-sm mb-2">
-            📍 Hindupur, Andhra Pradesh
-          </p>
+            <p className="flex items-center gap-2">
+              📞 +91 93910 93490
+            </p>
 
-          <p className="text-sm">
-            ✉️ arfabrications@email.com
-          </p>
+            <p className="flex items-center gap-2">
+              📍 Hindupur, Andhra Pradesh
+            </p>
+
+            <p className="flex items-center gap-2">
+              ✉️ arfabrications@email.com
+            </p>
+
+          </div>
 
         </div>
 
       </div>
 
+
+      {/* Divider */}
+      <div className="border-t border-white/10 mt-12"></div>
+
+
       {/* Bottom Line */}
-      <div className="border-t border-white/10 mt-10 pt-6 text-center text-sm text-gray-500">
+      <div className="text-center text-sm text-gray-500 mt-6">
         © {new Date().getFullYear()} AR Fabrications. All rights reserved.
       </div>
 
