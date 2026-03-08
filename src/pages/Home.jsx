@@ -5,7 +5,7 @@ import Hero from "../components/sections/Hero";
 import Stats from "../components/sections/Stats";
 import Services from "../components/sections/Services";
 import WhyChoose from "../components/sections/WhyChoose";
-import CTA from "../components/sections/CTA";
+
 import WhatsAppButton from "../components/layout/WhatsAppButton";
 import Footer from "../components/layout/Footer";
 import Industries from "../components/sections/Industries";
@@ -28,7 +28,7 @@ const Home = () => {
       <Services />
       <Industries />
       <WhyChoose />
-      <CTA />
+      
       <WhatsAppButton />
       <Footer />
 
