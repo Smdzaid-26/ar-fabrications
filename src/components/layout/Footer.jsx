@@ -1,13 +1,38 @@
+import { useNavigate, useLocation } from "react-router-dom";
+
 const Footer = () => {
 
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+  const scrollToSection = (id) => {
+
+    // If user is not on home page
+    if (location.pathname !== "/") {
+
+      navigate("/");
+
+      setTimeout(() => {
+        const section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }, 200);
+
+    } else {
+
+      const section = document.getElementById(id);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+
     }
   };
 
@@ -28,10 +53,8 @@ const Footer = () => {
           </p>
         </div>
 
-
         {/* Quick Links */}
         <div>
-
           <h4 className="text-white font-semibold mb-4">
             Quick Links
           </h4>
@@ -39,91 +62,53 @@ const Footer = () => {
           <ul className="space-y-3 text-sm">
 
             <li>
-              <button
-                onClick={() => scrollToSection("home")}
-                className="hover:text-orange-400 transition relative
-                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
-                after:w-0 after:bg-orange-400 after:transition-all
-                hover:after:w-full"
-              >
+              <button onClick={() => scrollToSection("home")}
+              className="hover:text-orange-400">
                 Home
               </button>
             </li>
 
             <li>
-              <button
-                onClick={() => scrollToSection("services")}
-                className="hover:text-orange-400 transition relative
-                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
-                after:w-0 after:bg-orange-400 after:transition-all
-                hover:after:w-full"
-              >
+              <button onClick={() => scrollToSection("services")}
+              className="hover:text-orange-400">
                 Services
               </button>
             </li>
 
             <li>
-              <button
-                onClick={() => scrollToSection("industries")}
-                className="hover:text-orange-400 transition relative
-                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
-                after:w-0 after:bg-orange-400 after:transition-all
-                hover:after:w-full"
-              >
+              <button onClick={() => scrollToSection("industries")}
+              className="hover:text-orange-400">
                 Industries
               </button>
             </li>
 
             <li>
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="hover:text-orange-400 transition relative
-                after:absolute after:left-0 after:-bottom-1 after:h-[1px]
-                after:w-0 after:bg-orange-400 after:transition-all
-                hover:after:w-full"
-              >
+              <button onClick={() => scrollToSection("contact")}
+              className="hover:text-orange-400">
                 Contact
               </button>
             </li>
 
           </ul>
-
         </div>
 
-
-        {/* Contact Info */}
+        {/* Contact */}
         <div>
-
           <h4 className="text-white font-semibold mb-4">
             Contact Info
           </h4>
 
           <div className="space-y-3 text-sm text-gray-400">
-
-            <p className="flex items-center gap-2">
-              📞 +91 93910 93490
-            </p>
-
-            <p className="flex items-center gap-2">
-              📍 Hindupur, Andhra Pradesh
-            </p>
-
-            <p className="flex items-center gap-2">
-              ✉️ arfabrications@email.com
-            </p>
-
+            <p>📞 +91 93910 93490</p>
+            <p>📍 Hindupur, Andhra Pradesh</p>
+            <p>✉️ arfabrications@email.com</p>
           </div>
-
         </div>
 
       </div>
 
-
-      {/* Divider */}
       <div className="border-t border-white/10 mt-12"></div>
 
-
-      {/* Bottom Line */}
       <div className="text-center text-sm text-gray-500 mt-6">
         © {new Date().getFullYear()} AR Fabrications. All rights reserved.
       </div>
