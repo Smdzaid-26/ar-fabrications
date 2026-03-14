@@ -14,6 +14,7 @@ const folderMap = {
 };
 
 const ServiceDetail = () => {
+
   const { slug } = useParams();
 
   const [images, setImages] = useState([]);
@@ -22,13 +23,13 @@ const ServiceDetail = () => {
 
   const [selectedDesign, setSelectedDesign] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-
   const [material, setMaterial] = useState("High Quality");
+  const [showModal, setShowModal] = useState(false);
 
   const folder = folderMap[slug];
 
   useEffect(() => {
+
     if (!folder) {
       setError("No folder mapped for this service");
       setLoading(false);
@@ -36,27 +37,47 @@ const ServiceDetail = () => {
     }
 
     const fetchImages = async () => {
+
       try {
+
         const response = await fetch(
           `https://ar-fabrications-api.vercel.app/images/${folder}`
         );
 
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
         const data = await response.json();
 
         const imageUrls = data.map((img) =>
-          img.secure_url.replace("/upload/", "/upload/f_auto,q_auto,w_1000/")
+          img.secure_url.replace(
+            "/upload/",
+            "/upload/f_auto,q_auto,w_1000/"
+          )
         );
 
         setImages(imageUrls);
+        setError(null);
+
       } catch (err) {
+
+        console.error("Fetch error:", err);
         setError("Failed to load images.");
+
       } finally {
+
         setLoading(false);
+
       }
+
     };
 
     fetchImages();
+
   }, [slug, folder]);
+
+
 
   const openQuote = (designCode, image) => {
     setSelectedDesign(designCode);
@@ -64,12 +85,14 @@ const ServiceDetail = () => {
     setShowModal(true);
   };
 
+
   const sendWhatsApp = () => {
+
     const message = `Hello AR Fabrications,
 
 I liked this design from your website.
 
-Design: ${selectedDesign}
+Design Code: ${selectedDesign}
 Material Quality: ${material}
 Service: ${slug}
 
@@ -82,26 +105,45 @@ Please provide a quotation.`;
     window.open(url, "_blank");
   };
 
+
+
   return (
     <>
       <Navbar />
 
-      <section className="bg-[#0b1119] text-white py-24 px-6 min-h-screen">
+      <section className="bg-[#0b1119] text-white py-20 px-4 sm:px-6 min-h-screen">
+
         <div className="max-w-7xl mx-auto">
 
-          <h1 className="text-4xl font-bold capitalize mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold capitalize mb-12">
             {slug.replaceAll("-", " ")}
           </h1>
 
-          {loading && <p className="text-gray-400">Loading images...</p>}
-          {error && <p className="text-red-400">{error}</p>}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {loading && (
+            <p className="text-gray-400">Loading images...</p>
+          )}
+
+          {error && (
+            <p className="text-red-400">{error}</p>
+          )}
+
+          {!loading && !error && images.length === 0 && (
+            <p className="text-gray-400">
+              No images found in this folder yet.
+            </p>
+          )}
+
+
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {images.map((img, index) => {
+
               const designCode = `AR-${index + 1}`;
 
               return (
+
                 <div
                   key={index}
                   className="relative group overflow-hidden rounded-xl"
@@ -110,20 +152,22 @@ Please provide a quotation.`;
                   <img
                     src={img}
                     alt={`${slug} fabrication ${index + 1}`}
-                    className="w-full h-72 object-cover transition duration-300 group-hover:scale-110"
+                    className="w-full h-64 sm:h-72 object-cover transition duration-300 group-hover:scale-110"
+                    loading="lazy"
                   />
 
                   {/* Design Code */}
-                  <div className="absolute top-3 left-3 bg-black/70 px-3 py-1 text-sm rounded">
+                  <div className="absolute top-3 left-3 bg-black/70 px-3 py-1 text-xs sm:text-sm rounded">
                     {designCode}
                   </div>
 
-                  {/* Hover Buttons */}
-                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition">
+
+                  {/* Hover / Mobile Buttons */}
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
 
                     <button
-                      className="bg-white text-black px-4 py-2 rounded font-semibold"
                       onClick={() => openQuote(designCode, img)}
+                      className="bg-white text-black px-4 py-2 rounded font-semibold"
                     >
                       Request Quote
                     </button>
@@ -131,60 +175,73 @@ Please provide a quotation.`;
                   </div>
 
                 </div>
+
               );
+
             })}
 
           </div>
 
         </div>
+
       </section>
+
+
 
       {/* Quote Modal */}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
 
-          <div className="bg-white text-black p-8 rounded-xl w-[90%] max-w-lg">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
 
-            <h2 className="text-2xl font-bold mb-4">
+          <div className="bg-white text-black rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+
+            <h2 className="text-xl sm:text-2xl font-bold mb-4">
               Request Quote
             </h2>
 
+
             <img
               src={selectedImage}
-              className="rounded mb-4"
+              alt="Selected Design"
+              className="w-full h-48 object-cover rounded mb-4"
             />
 
-            <p className="mb-4 font-semibold">
-              Design: {selectedDesign}
+
+            <p className="font-semibold mb-4">
+              Design Code: {selectedDesign}
             </p>
 
-            <label className="block mb-2 font-semibold">
+
+
+            <label className="block font-semibold mb-2">
               Select Material Quality
             </label>
 
             <select
-              className="w-full border p-2 mb-6"
               value={material}
               onChange={(e) => setMaterial(e.target.value)}
+              className="w-full border p-2 rounded mb-6"
             >
-              <option>Best Quality (Jindal / MS)</option>
-              <option>High Quality (JSW / Jindal Panther)</option>
-              <option>Premium Quality (Tata Steel / SS)</option>
+              <option>Best Quality (Jindal / MS Steel)</option>
+              <option>High Quality (JSW / Jindal Panther / SAIL)</option>
+              <option>Premium Quality (Tata Steel / Stainless Steel)</option>
             </select>
 
-            <div className="flex gap-4">
+
+
+            <div className="flex flex-col sm:flex-row gap-3">
 
               <button
                 onClick={sendWhatsApp}
-                className="bg-green-500 text-white px-6 py-2 rounded"
+                className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded"
               >
                 Send on WhatsApp
               </button>
 
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-300 px-6 py-2 rounded"
+                className="w-full sm:w-auto bg-gray-300 px-6 py-3 rounded"
               >
                 Cancel
               </button>
@@ -194,6 +251,7 @@ Please provide a quotation.`;
           </div>
 
         </div>
+
       )}
 
       <Footer />
