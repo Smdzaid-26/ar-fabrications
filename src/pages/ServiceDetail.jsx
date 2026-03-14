@@ -13,8 +13,6 @@ const folderMap = {
   "industrial-fabrication": "ar-fabrications-industry",
 };
 
-const API_BASE = "https://ar-fabrications-api.vercel.app/api";
-
 const ServiceDetail = () => {
   const { slug } = useParams();
 
@@ -34,7 +32,7 @@ const ServiceDetail = () => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          `${API_BASE}/images/${folder}`
+          `https://ar-fabrications-api.vercel.app/images/${folder}`
         );
 
         if (!response.ok) {
@@ -42,8 +40,6 @@ const ServiceDetail = () => {
         }
 
         const data = await response.json();
-
-        console.log("Images received:", data);
 
         const imageUrls = data.map((img) =>
           img.secure_url.replace(
@@ -56,7 +52,7 @@ const ServiceDetail = () => {
         setError(null);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("Failed to load images. Check console.");
+        setError("Failed to load images.");
       } finally {
         setLoading(false);
       }
