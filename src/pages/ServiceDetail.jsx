@@ -14,7 +14,6 @@ const folderMap = {
 };
 
 const ServiceDetail = () => {
-
   const { slug } = useParams();
 
   const [images, setImages] = useState([]);
@@ -23,13 +22,12 @@ const ServiceDetail = () => {
 
   const [selectedDesign, setSelectedDesign] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [material, setMaterial] = useState("High Quality");
+  const [material, setMaterial] = useState("Best Quality (Jindal / MS Steel)");
   const [showModal, setShowModal] = useState(false);
 
   const folder = folderMap[slug];
 
   useEffect(() => {
-
     if (!folder) {
       setError("No folder mapped for this service");
       setLoading(false);
@@ -37,9 +35,7 @@ const ServiceDetail = () => {
     }
 
     const fetchImages = async () => {
-
       try {
-
         const response = await fetch(
           `https://ar-fabrications-api.vercel.app/images/${folder}`
         );
@@ -59,25 +55,16 @@ const ServiceDetail = () => {
 
         setImages(imageUrls);
         setError(null);
-
       } catch (err) {
-
         console.error("Fetch error:", err);
         setError("Failed to load images.");
-
       } finally {
-
         setLoading(false);
-
       }
-
     };
 
     fetchImages();
-
   }, [slug, folder]);
-
-
 
   const openQuote = (designCode, image) => {
     setSelectedDesign(designCode);
@@ -85,9 +72,7 @@ const ServiceDetail = () => {
     setShowModal(true);
   };
 
-
   const sendWhatsApp = () => {
-
     const message = `Hello AR Fabrications,
 
 I liked this design from your website.
@@ -105,20 +90,16 @@ Please provide a quotation.`;
     window.open(url, "_blank");
   };
 
-
-
   return (
     <>
       <Navbar />
 
       <section className="bg-[#0b1119] text-white py-20 px-4 sm:px-6 min-h-screen">
-
         <div className="max-w-7xl mx-auto">
 
           <h1 className="text-3xl sm:text-4xl font-bold capitalize mb-12">
             {slug.replaceAll("-", " ")}
           </h1>
-
 
           {loading && (
             <p className="text-gray-400">Loading images...</p>
@@ -134,16 +115,12 @@ Please provide a quotation.`;
             </p>
           )}
 
-
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {images.map((img, index) => {
-
               const designCode = `AR-${index + 1}`;
 
               return (
-
                 <div
                   key={index}
                   className="relative group overflow-hidden rounded-xl"
@@ -161,8 +138,7 @@ Please provide a quotation.`;
                     {designCode}
                   </div>
 
-
-                  {/* Hover / Mobile Buttons */}
+                  {/* Hover Buttons */}
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
 
                     <button
@@ -175,23 +151,18 @@ Please provide a quotation.`;
                   </div>
 
                 </div>
-
               );
-
             })}
 
           </div>
 
         </div>
-
       </section>
-
 
 
       {/* Quote Modal */}
 
       {showModal && (
-
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
 
           <div className="bg-white text-black rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -200,19 +171,16 @@ Please provide a quotation.`;
               Request Quote
             </h2>
 
-
+            {/* FULL IMAGE FIX */}
             <img
               src={selectedImage}
               alt="Selected Design"
-              className="w-full h-48 object-cover rounded mb-4"
+              className="w-full max-h-[60vh] object-contain rounded mb-4"
             />
-
 
             <p className="font-semibold mb-4">
               Design Code: {selectedDesign}
             </p>
-
-
 
             <label className="block font-semibold mb-2">
               Select Material Quality
@@ -227,8 +195,6 @@ Please provide a quotation.`;
               <option>High Quality (JSW / Jindal Panther / SAIL)</option>
               <option>Premium Quality (Tata Steel / Stainless Steel)</option>
             </select>
-
-
 
             <div className="flex flex-col sm:flex-row gap-3">
 
@@ -251,7 +217,6 @@ Please provide a quotation.`;
           </div>
 
         </div>
-
       )}
 
       <Footer />
