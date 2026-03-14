@@ -47,10 +47,7 @@ const ServiceDetail = () => {
         const data = await response.json();
 
         const imageUrls = data.map((img) =>
-          img.secure_url.replace(
-            "/upload/",
-            "/upload/f_auto,q_auto,w_1000/"
-          )
+          img.secure_url.replace("/upload/", "/upload/f_auto,q_auto,w_1000/")
         );
 
         setImages(imageUrls);
@@ -101,13 +98,8 @@ Please provide a quotation.`;
             {slug.replaceAll("-", " ")}
           </h1>
 
-          {loading && (
-            <p className="text-gray-400">Loading images...</p>
-          )}
-
-          {error && (
-            <p className="text-red-400">{error}</p>
-          )}
+          {loading && <p className="text-gray-400">Loading images...</p>}
+          {error && <p className="text-red-400">{error}</p>}
 
           {!loading && !error && images.length === 0 && (
             <p className="text-gray-400">
@@ -115,7 +107,8 @@ Please provide a quotation.`;
             </p>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Gallery */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
             {images.map((img, index) => {
               const designCode = `AR-${index + 1}`;
@@ -123,13 +116,14 @@ Please provide a quotation.`;
               return (
                 <div
                   key={index}
-                  className="relative group overflow-hidden rounded-xl"
+                  className="relative group rounded-xl overflow-hidden bg-[#111]"
                 >
 
+                  {/* Image */}
                   <img
                     src={img}
                     alt={`${slug} fabrication ${index + 1}`}
-                    className="w-full h-64 sm:h-72 object-cover transition duration-300 group-hover:scale-110"
+                    className="w-full max-h-[420px] object-contain transition duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
 
@@ -138,7 +132,7 @@ Please provide a quotation.`;
                     {designCode}
                   </div>
 
-                  {/* Hover Buttons */}
+                  {/* Hover / Mobile Buttons */}
                   <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
 
                     <button
@@ -159,9 +153,7 @@ Please provide a quotation.`;
         </div>
       </section>
 
-
       {/* Quote Modal */}
-
       {showModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
 
@@ -171,7 +163,7 @@ Please provide a quotation.`;
               Request Quote
             </h2>
 
-            {/* FULL IMAGE FIX */}
+            {/* Full Image */}
             <img
               src={selectedImage}
               alt="Selected Design"
@@ -215,7 +207,6 @@ Please provide a quotation.`;
             </div>
 
           </div>
-
         </div>
       )}
 
