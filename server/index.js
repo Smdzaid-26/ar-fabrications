@@ -21,6 +21,11 @@ app.get("/", (req, res) => {
   res.json({ status: "AR Fabrications API running 🚀" });
 });
 
+// 🔹 Keep-alive route for Render (cron job will call this)
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 // Get images from cloudinary folder
 app.get("/images/:folder", async (req, res) => {
   try {
