@@ -16,17 +16,17 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Test route
+// Root
 app.get("/", (req, res) => {
   res.json({ status: "AR Fabrications API running 🚀" });
 });
 
-// 🔹 Keep-alive route for Render (cron job will call this)
+// Ping
 app.get("/ping", (req, res) => {
   res.status(200).send("pong");
 });
 
-// Get images from cloudinary folder
+// Images route
 app.get("/images/:folder", async (req, res) => {
   try {
     const folder = req.params.folder;
@@ -44,8 +44,4 @@ app.get("/images/:folder", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Backend proxy running on port ${PORT}`);
-});
+export default app;

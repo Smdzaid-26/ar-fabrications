@@ -13,6 +13,8 @@ const folderMap = {
   "industrial-fabrication": "ar-fabrications-industry",
 };
 
+const API_BASE = "https://ar-fabrications-api.vercel.app/api";
+
 const ServiceDetail = () => {
   const { slug } = useParams();
 
@@ -32,7 +34,7 @@ const ServiceDetail = () => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          `https://ar-fabrications-api.onrender.com/images/${folder}`
+          `${API_BASE}/images/${folder}`
         );
 
         if (!response.ok) {
