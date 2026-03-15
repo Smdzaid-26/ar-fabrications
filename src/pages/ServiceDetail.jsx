@@ -23,7 +23,11 @@ const ServiceDetail = () => {
 
   const [selectedDesign, setSelectedDesign] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+
   const [material, setMaterial] = useState("Best Quality (Jindal / MS Steel)");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
+
   const [showModal, setShowModal] = useState(false);
 
   const folder = folderMap[slug];
@@ -44,6 +48,10 @@ const ServiceDetail = () => {
           `https://ar-fabrications-api.vercel.app/images/${folder}`
         );
 
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
         const data = await response.json();
 
         const imageUrls = data.map((img) =>
@@ -54,10 +62,11 @@ const ServiceDetail = () => {
         );
 
         setImages(imageUrls);
+        setError(null);
 
       } catch (err) {
 
-        console.error(err);
+        console.error("Fetch error:", err);
         setError("Failed to load images.");
 
       } finally {
@@ -88,16 +97,22 @@ const ServiceDetail = () => {
 
     const message = `Hello AR Fabrications,
 
-*Design Selected*
+📌 *Design Selected*
 ${selectedDesign}
 
-*Material Quality*
+🏗 *Service*
+${slug.replaceAll("-", " ")}
+
+🛠 *Material Quality*
 ${material}
 
-Please provide quotation.
+📏 *Gate Size*
+${width || "Not specified"} ft x ${height || "Not specified"} ft
 
-Design Image:
-${selectedImage}`;
+📷 *Design Image*
+${selectedImage}
+
+Please provide quotation.`;
 
     const url = `https://wa.me/919391093490?text=${encodeURIComponent(message)}`;
 
@@ -156,7 +171,7 @@ ${selectedImage}`;
                     {designCode}
                   </div>
 
-                  {/* Mobile Button */}
+                  {/* Mobile Quote Button */}
                   <button
                     onClick={() => openQuote(designCode, img)}
                     className="absolute bottom-2 left-2 right-2 bg-white text-black text-xs py-1 rounded sm:hidden"
@@ -205,12 +220,16 @@ ${selectedImage}`;
             <img
               src={selectedImage}
               alt="Selected Design"
-              className="w-full max-h-[50vh] object-contain rounded mb-4"
+              className="w-full max-h-[45vh] object-contain rounded mb-4"
             />
 
             <p className="font-semibold mb-4">
               Design Code: {selectedDesign}
             </p>
+
+
+
+            {/* Material Selection */}
 
             <label className="block font-semibold mb-2">
               Select Material Quality
@@ -219,12 +238,40 @@ ${selectedImage}`;
             <select
               value={material}
               onChange={(e) => setMaterial(e.target.value)}
-              className="w-full border p-2 rounded mb-6"
+              className="w-full border p-2 rounded mb-4"
             >
               <option>Best Quality (Jindal / MS Steel)</option>
               <option>High Quality (JSW / Jindal Panther / SAIL)</option>
               <option>Premium Quality (Tata Steel / Stainless Steel)</option>
             </select>
+
+
+
+            {/* Gate Size Inputs */}
+
+            <label className="block font-semibold mb-2">
+              Gate Width (ft)
+            </label>
+
+            <input
+              type="number"
+              placeholder="Example: 12"
+              value={width}
+              onChange={(e) => setWidth(e.target.value)}
+              className="w-full border p-2 rounded mb-3"
+            />
+
+            <label className="block font-semibold mb-2">
+              Gate Height (ft)
+            </label>
+
+            <input
+              type="number"
+              placeholder="Example: 6"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+              className="w-full border p-2 rounded mb-6"
+            />
 
 
 
