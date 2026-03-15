@@ -83,19 +83,21 @@ const ServiceDetail = () => {
   };
 
 
+
   const sendWhatsApp = () => {
 
     const message = `Hello AR Fabrications,
 
-I liked this design from your website.
+*Design Selected*
+${selectedDesign}
 
-Design Code: ${selectedDesign}
-Material Quality: ${material}
-Service: ${slug}
+*Material Quality*
+${material}
 
-Image: ${selectedImage}
+Please provide quotation.
 
-Please provide a quotation.`;
+Design Image:
+${selectedImage}`;
 
     const url = `https://wa.me/919391093490?text=${encodeURIComponent(message)}`;
 
@@ -113,10 +115,9 @@ Please provide a quotation.`;
 
         <div className="max-w-7xl mx-auto">
 
-          <h1 className="text-3xl sm:text-4xl font-bold capitalize mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold capitalize mb-10">
             {slug.replaceAll("-", " ")}
           </h1>
-
 
           {loading && (
             <p className="text-gray-400">Loading images...</p>
@@ -128,9 +129,9 @@ Please provide a quotation.`;
 
 
 
-          {/* Masonry Gallery */}
+          {/* Gallery */}
 
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
 
             {images.map((img, index) => {
 
@@ -140,27 +141,31 @@ Please provide a quotation.`;
 
                 <div
                   key={index}
-                  className="relative group rounded-xl overflow-hidden bg-[#111] break-inside-avoid"
+                  className="relative group rounded-xl overflow-hidden bg-[#111] shadow-lg"
                 >
 
                   <img
                     src={img}
                     alt={`${slug} fabrication ${index + 1}`}
-                    className="w-full rounded-xl transition duration-300 group-hover:scale-105"
+                    className="w-full h-40 sm:h-52 lg:h-auto object-cover transition duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
 
                   {/* Design Code */}
-
-                  <div className="absolute top-3 left-3 bg-black/70 px-3 py-1 text-xs sm:text-sm rounded">
+                  <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 text-xs rounded">
                     {designCode}
                   </div>
 
+                  {/* Mobile Button */}
+                  <button
+                    onClick={() => openQuote(designCode, img)}
+                    className="absolute bottom-2 left-2 right-2 bg-white text-black text-xs py-1 rounded sm:hidden"
+                  >
+                    Quote
+                  </button>
 
-
-                  {/* Request Quote Button */}
-
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
+                  {/* Desktop Hover */}
+                  <div className="absolute inset-0 bg-black/60 items-center justify-center hidden sm:flex opacity-0 group-hover:opacity-100 transition">
 
                     <button
                       onClick={() => openQuote(designCode, img)}
@@ -191,25 +196,21 @@ Please provide a quotation.`;
 
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
 
-          <div className="bg-white text-black rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+          <div className="bg-white text-black rounded-xl p-6 w-full max-w-md">
 
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">
+            <h2 className="text-xl font-bold mb-4">
               Request Quote
             </h2>
-
 
             <img
               src={selectedImage}
               alt="Selected Design"
-              className="w-full max-h-[60vh] object-contain rounded mb-4"
+              className="w-full max-h-[50vh] object-contain rounded mb-4"
             />
-
 
             <p className="font-semibold mb-4">
               Design Code: {selectedDesign}
             </p>
-
-
 
             <label className="block font-semibold mb-2">
               Select Material Quality
@@ -227,18 +228,18 @@ Please provide a quotation.`;
 
 
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex gap-3">
 
               <button
                 onClick={sendWhatsApp}
-                className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded"
+                className="flex-1 bg-green-500 text-white px-4 py-2 rounded"
               >
                 Send on WhatsApp
               </button>
 
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full sm:w-auto bg-gray-300 px-6 py-3 rounded"
+                className="flex-1 bg-gray-300 px-4 py-2 rounded"
               >
                 Cancel
               </button>
